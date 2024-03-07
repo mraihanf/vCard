@@ -73,7 +73,7 @@ public class PersonController {
 
     @GetMapping(value = "/index")
     public String index() {
-        return "index";
+        return "indexcard";
     }
 
     @GetMapping(value = "/")
@@ -81,6 +81,7 @@ public class PersonController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
         httpSession.setAttribute("username", username);
+
         return "register";
     }
 
@@ -99,8 +100,8 @@ public class PersonController {
         model.addAttribute("jabatan", person.getJabatan());
         model.addAttribute("Image", person.getImage());
         // model.addAttribute("gambar", person.getGambar());
-
-        return "index";
+ 
+        return "indexcard"; 
     }
 
     @PostMapping(value = "/InputPerson")
@@ -115,7 +116,7 @@ public class PersonController {
         byte[] binarydata = Base64.getMimeDecoder().decode(gambar);
         // Blob B = new SerialBlob(binarydata);
         Person person = new Person();
-        person.setGambar(binarydata);
+        // person.setGambar(binarydata);
         person.setNama(nama);
         person.setDivisi(divisi);
         person.setEmail("mailto:" + email);
@@ -123,7 +124,7 @@ public class PersonController {
         person.setUsername(httpSession.getAttribute("username").toString());
         person.setNamafile(namafile + ".jpg");
         person.setJabatan(jabatan);
-        person.setImage(gambar);
+        person.setImage(null);
         personRepository.save(person);
         // System.out.println(B);
         data.put("icon", "success");
@@ -146,7 +147,7 @@ public class PersonController {
         person.setNo_wa("http://wa.me/+62" + nowa);
         person.setUsername(httpSession.getAttribute("username").toString());
         person.setNamafile(namafile + ".jpg");
-        person.setImage(gambar);
+        person.setImage(null);
         personRepository.save(person);
         data.put("icon", "success");
         data.put("message", "data berhasil di insert");
